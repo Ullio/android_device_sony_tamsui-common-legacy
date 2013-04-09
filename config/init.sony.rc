@@ -193,6 +193,7 @@ on post-fs
     #Permission for Lights
     chown system system /sys/class/led/fih_led/control
     chown system system /sys/devices/virtual/graphics/fb0/msmfb_bl0/brightness
+    chown system system /sys/devices/platform/msm_fb.590593/leds/lcd-backlight/brightness
 
     #vibrator
     chown system system /sys/class/vibrator/pmic-vib/control
