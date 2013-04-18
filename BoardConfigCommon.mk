@@ -1,4 +1,4 @@
-TARGET_SPECIFIC_HEADER_PATH := device/sony/tamsui-common/include
+TARGET_SPECIFIC_HEADER_PATH := device/sony/tamsui-common-legacy/include
 
 TARGET_NO_BOOTLOADER := true
 TARGET_NO_RADIOIMAGE := true
@@ -54,7 +54,7 @@ TARGET_USES_GENLOCK := true
 TARGET_QCOM_HDMI_OUT := false
 TARGET_GRALLOC_USES_ASHMEM := true
 TARGET_NO_HW_VSYNC := true
-BOARD_EGL_CFG := device/sony/tamsui-common/config/egl.cfg
+BOARD_EGL_CFG := device/sony/tamsui-common-legacy/config/egl.cfg
 
 TARGET_PROVIDES_LIBLIGHTS := true
 
@@ -78,7 +78,7 @@ BOARD_VENDOR_QCOM_GPS_LOC_API_AMSS_VERSION := 50000
 BOARD_HAVE_BLUETOOTH := true
 BOARD_HAVE_BLUETOOTH_BCM := true
 TARGET_NEEDS_BLUETOOTH_INIT_DELAY := true
-TARGET_CUSTOM_BLUEDROID := ../../../device/sony/tamsui-common/bluedroid/bluetooth.c
+TARGET_CUSTOM_BLUEDROID := ../../../device/sony/tamsui-common-legacy/bluedroid/bluetooth.c
 
 #FM Radio
 #BOARD_USES_STE_FMRADIO := true
@@ -90,15 +90,15 @@ TARGET_FORCE_CPU_UPLOAD := true
 
 # Custom boot
 TARGET_RECOVERY_PRE_COMMAND := "touch /cache/recovery/boot;sync;"
-BOARD_CUSTOM_BOOTIMG_MK := device/sony/tamsui-common/custombootimg.mk
-TARGET_RELEASETOOL_OTA_FROM_TARGET_SCRIPT := device/sony/tamsui-common/releasetools/semc_ota_from_target_files
-BOARD_CUSTOM_RECOVERY_KEYMAPPING := ../../device/sony/tamsui-common/recovery/recovery-keys.c
+BOARD_CUSTOM_BOOTIMG_MK := device/sony/tamsui-common-legacy/custombootimg.mk
+TARGET_RELEASETOOL_OTA_FROM_TARGET_SCRIPT := device/sony/tamsui-common-legacy/releasetools/semc_ota_from_target_files
+BOARD_CUSTOM_RECOVERY_KEYMAPPING := ../../device/sony/tamsui-common-legacy/recovery/recovery-keys.c
 
 BOARD_UMS_LUNFILE := "/sys/devices/platform/msm_hsusb/gadget/lun0/file"
 TARGET_USE_CUSTOM_LUN_FILE_PATH := "/sys/devices/platform/msm_hsusb/gadget/lun0/file"
 
 # Custom vibrator
-BOARD_HAS_VIBRATOR_IMPLEMENTATION := ../../device/sony/tamsui-common/vibrator/vibrator.c
+BOARD_HAS_VIBRATOR_IMPLEMENTATION := ../../device/sony/tamsui-common-legacy/vibrator/vibrator.c
 
 #Bootanimation
 TARGET_BOOTANIMATION_PRELOAD := true

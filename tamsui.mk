@@ -1,6 +1,6 @@
 $(call inherit-product, $(SRC_TARGET_DIR)/product/languages_full.mk)
 
-DEVICE_PACKAGE_OVERLAYS += device/sony/tamsui-common/overlay
+DEVICE_PACKAGE_OVERLAYS += device/sony/tamsui-common-legacy/overlay
 
 # Permissions
 PRODUCT_COPY_FILES += \
@@ -21,11 +21,11 @@ PRODUCT_COPY_FILES += \
 
 # EGL config
 PRODUCT_COPY_FILES += \
-    device/sony/tamsui-common/config/egl.cfg:system/lib/egl/egl.cfg
+    device/sony/tamsui-common-legacy/config/egl.cfg:system/lib/egl/egl.cfg
 
 # Common Qualcomm scripts
 PRODUCT_COPY_FILES += \
-    device/sony/tamsui-common/config/init.qcom.efs.sync.sh:system/etc/init.qcom.efs.sync.sh
+    device/sony/tamsui-common-legacy/config/init.qcom.efs.sync.sh:system/etc/init.qcom.efs.sync.sh
 
 # QCOM Display
 PRODUCT_PACKAGES += \
@@ -49,10 +49,10 @@ PRODUCT_PACKAGES += \
     libaudioutils
 
 PRODUCT_COPY_FILES += \
-    device/sony/tamsui-common/config/audio_policy.conf:system/etc/audio_policy.conf \
-    device/sony/tamsui-common/config/media_profiles.xml:system/etc/media_profiles.xml \
-    device/sony/tamsui-common/config/media_codecs.xml:system/etc/media_codecs.xml \
-    device/sony/tamsui-common/config/AudioFilter.csv:system/etc/AudioFilter.csv
+    device/sony/tamsui-common-legacy/config/audio_policy.conf:system/etc/audio_policy.conf \
+    device/sony/tamsui-common-legacy/config/media_profiles.xml:system/etc/media_profiles.xml \
+    device/sony/tamsui-common-legacy/config/media_codecs.xml:system/etc/media_codecs.xml \
+    device/sony/tamsui-common-legacy/config/AudioFilter.csv:system/etc/AudioFilter.csv
 
 # QCOM Power
 PRODUCT_PACKAGES += \
@@ -104,8 +104,8 @@ PRODUCT_BUILD_PROP_OVERRIDES += BUILD_UTC_DATE=0
 
 # Custom init / uevent
 PRODUCT_COPY_FILES += \
-    device/sony/tamsui-common/config/init.sony.rc:root/init.sony.rc \
-    device/sony/tamsui-common/config/ueventd.sony.rc:root/ueventd.sony.rc
+    device/sony/tamsui-common-legacy/config/init.sony.rc:root/init.sony.rc \
+    device/sony/tamsui-common-legacy/config/ueventd.sony.rc:root/ueventd.sony.rc
 
 # system props for the MM modules
 PRODUCT_PROPERTY_OVERRIDES += \
