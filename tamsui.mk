@@ -43,9 +43,8 @@ PRODUCT_PACKAGES += \
 # Audio
 PRODUCT_PACKAGES += \
     audio.a2dp.default \
-    audio_policy.msm7x27a \
-    audio.primary.msm7x27a \
-    audio_policy.conf \
+    audio_policy.sony \
+    audio.primary.sony \
     libaudioutils
 
 PRODUCT_COPY_FILES += \
