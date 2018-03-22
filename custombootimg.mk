@@ -32,6 +32,7 @@ INSTALLED_RECOVERYIMAGE_TARGET := $(PRODUCT_OUT)/recovery.img
 $(INSTALLED_RECOVERYIMAGE_TARGET): $(MKBOOTIMG) \
 	$(recovery_ramdisk) \
 	$(recovery_kernel)
-	@echo ----- Making recovery image ------
+	@echo -e ${CL_CYN}"----- Making recovery image ------"${CL_RST}
 	$(hide) python $(MKELF) -o $@ $(PRODUCT_OUT)/kernel@$(BOARD_FORCE_BOOT_ADDRESS) $(PRODUCT_OUT)/ramdisk-recovery.img@$(BOARD_MKBOOTIMG_ARGS),ramdisk $(BOARD_KERNEL_CMDLINE)@cmdline
-	@echo ----- Made recovery image -------- $@
+	@echo -e ${CL_CYN}"----- Made recovery image -------- $@"${CL_RST}
+
