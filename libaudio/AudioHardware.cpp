@@ -363,6 +363,16 @@ AudioStreamOut* AudioHardware::openOutputStream(uint32_t devices, audio_output_f
     return NULL;
 }
 
+
+/*
+ * no more audio_output_flags_t flags according to Android reference source
+ */
+AudioStreamOut* AudioHardware::openOutputStream(uint32_t devices, int *format, uint32_t *channels, uint32_t *sampleRate, status_t *status)
+{
+    return openOutputStream (devices, AUDIO_OUTPUT_FLAG_NONE, format, channels, sampleRate, status);
+}
+
+
 void AudioHardware::closeOutputStream(AudioStreamOut* out) {
     Mutex::Autolock lock(mLock);
     if ((mOutput == 0
