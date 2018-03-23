@@ -27,8 +27,11 @@
 
 #include <utils/Log.h>
 #include "AudioPolicyManager.h"
+#include <hardware/audio_effect.h>
 #include <media/mediarecorder.h>
 #include <hardware/audio.h>
+#include <math.h>
+#include <hardware_legacy/audio_policy_conf.h>
 #include <fcntl.h>
 #include <cutils/properties.h> // for property_get
 
@@ -514,7 +517,7 @@ status_t AudioPolicyManager::setDeviceConnectionState(AudioSystem::audio_devices
             }
         }
 
-        updateDeviceForStrategy();
+        updateDevicesAndOutputs ();
         for (size_t i = 0; i < mOutputs.size(); i++) {
             setOutputDevice(mOutputs.keyAt(i), getNewDevice(mOutputs.keyAt(i), true /*fromCache*/));
         }
@@ -637,7 +640,7 @@ void AudioPolicyManager::setForceUse(AudioSystem::force_use usage, AudioSystem::
     // check for device and output changes triggered by new force usage
     checkA2dpSuspend();
     checkOutputForAllStrategies();
-    updateDeviceForStrategy();
+    updateDevicesAndOutputs ();
     for (size_t i = 0; i < mOutputs.size(); i++) {
         audio_io_handle_t output = mOutputs.keyAt(i);
         audio_devices_t newDevice = getNewDevice(output, true /*fromCache*/);
@@ -1002,5 +1005,23 @@ status_t AudioPolicyManager::checkAndSetVolume(int stream, int index, audio_io_h
       }
     return NO_ERROR;
 }
+
+
+/*
+ * Taken from Android 4.2. base implementation
+ */
+void AudioPolicyManager::handleNotificationRoutingForStream(AudioSystem::stream_type stream) 
+{
+    switch(stream) 
+    {
+    case AudioSystem::MUSIC:
+        checkOutputForStrategy (STRATEGY_SONIFICATION_RESPECTFUL);
+        updateDevicesAndOutputs ();
+        break;
+    default:
+        break;
+    }
+}
+
 
 }; // namespace android

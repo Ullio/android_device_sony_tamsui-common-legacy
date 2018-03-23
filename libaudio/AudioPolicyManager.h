@@ -76,5 +76,11 @@ protected:
                                int session = 0);
         virtual void setFmMode(fm_modes mode) {  fmMode = mode; }
         virtual fm_modes getFMMode() const {  return fmMode; }
+
+
+private:
+	void handleNotificationRoutingForStream (AudioSystem::stream_type stream);
+
 };
+
 };
