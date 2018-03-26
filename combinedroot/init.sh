@@ -61,9 +61,9 @@ then
 	load_image=/sbin/ramdisk-recovery.cpio
 else
 	busybox echo 'ANDROID BOOT' >>boot.txt
-	# poweroff LED
+	# power on green LED
 	busybox echo ${BOOTREC_RED_LED_OFF} > ${BOOTREC_CONTROL_LED}
-	busybox echo ${BOOTREC_GREEN_LED_OFF} > ${BOOTREC_CONTROL_LED}
+	busybox echo ${BOOTREC_GREEN_LED_ON} > ${BOOTREC_CONTROL_LED}
 	busybox echo ${BOOTREC_BLUE_LED_OFF} > ${BOOTREC_CONTROL_LED}
 fi
 
