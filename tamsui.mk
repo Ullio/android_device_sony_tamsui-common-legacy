@@ -106,6 +106,11 @@ PRODUCT_COPY_FILES += \
     device/sony/tamsui-common-legacy/config/init.sony.rc:root/init.sony.rc \
     device/sony/tamsui-common-legacy/config/ueventd.sony.rc:root/ueventd.sony.rc
 
+# Missing modelid_cfg and add temporarily debug keys to have a chance to use adb at all
+PRODUCT_COPY_FILES += \
+    device/sony/tamsui-common-legacy/prebuilt/modelid_cfg.sh:root/system/bin/modelid_cfg.sh \
+    device/sony/tamsui-common-legacy/security/adbkey.pub:root/data/misc/adb/adb_keys
+
 # system props for the MM modules
 PRODUCT_PROPERTY_OVERRIDES += \
    media.stagefright.enable-player=true \
@@ -168,8 +173,19 @@ PRODUCT_PROPERTY_OVERRIDES += \
 PRODUCT_PROPERTY_OVERRIDES += \
     sys.mem.max_hidden_apps=10
 
+# USB and adb debugging
 PRODUCT_PROPERTY_OVERRIDES += \
-    persist.sys.usb.config=mtp
+    persist.sys.usb.config=mtp,adb \
+    persist.service.adb.enable=1 \
+    persist.service.debuggable=1
+
+# Security temporarily off
+PRODUCT_PROPERTY_OVERRIDES += \
+    ro.secure=0 \
+    ro.adb.secure=0 \
+    ro.debuggable=1 \
+    ro.kernel.android.checkjni=1
+
 
 $(call inherit-product, vendor/sony/qcom-common/common-vendor.mk)
 
