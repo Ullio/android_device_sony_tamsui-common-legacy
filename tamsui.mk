@@ -108,7 +108,7 @@ PRODUCT_COPY_FILES += \
 
 # Missing modelid_cfg and add temporarily debug keys to have a chance to use adb at all
 PRODUCT_COPY_FILES += \
-    device/sony/tamsui-common-legacy/prebuilt/modelid_cfg.sh:root/system/bin/modelid_cfg.sh \
+    device/sony/tamsui-common-legacy/prebuilt/modelid_cfg.sh:system/bin/modelid_cfg.sh \
     device/sony/tamsui-common-legacy/security/adbkey.pub:root/data/misc/adb/adb_keys
 
 # system props for the MM modules
