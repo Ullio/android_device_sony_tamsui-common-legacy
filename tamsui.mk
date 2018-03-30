@@ -111,6 +111,12 @@ PRODUCT_COPY_FILES += \
     device/sony/tamsui-common-legacy/prebuilt/modelid_cfg.sh:system/bin/modelid_cfg.sh \
     device/sony/tamsui-common-legacy/security/adbkey.pub:root/data/misc/adb/adb_keys
 
+# Temporarily copy busybox to ramdisk as nothing is there
+PRODUCT_COPY_FILES += \
+    device/sony/tamsui-common-legacy/prebuilt/busybox:root/system/bin/busybox \
+    device/sony/tamsui-common-legacy/prebuilt/busybox:root/system/bin/sh \
+    device/sony/tamsui-common-legacy/prebuilt/mount:root/system/bin/mount
+
 # system props for the MM modules
 PRODUCT_PROPERTY_OVERRIDES += \
    media.stagefright.enable-player=true \
