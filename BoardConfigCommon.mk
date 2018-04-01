@@ -43,6 +43,7 @@ TARGET_QCOM_HDMI_OUT := false
 TARGET_GRALLOC_USES_ASHMEM := true
 TARGET_NO_HW_VSYNC := true
 BOARD_EGL_CFG := device/sony/tamsui-common-legacy/config/egl.cfg
+TARGET_QCOM_DISPLAY_VARIANT := legacy
 
 TARGET_PROVIDES_LIBLIGHTS := true
 
