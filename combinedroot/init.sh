@@ -18,10 +18,12 @@ busybox mkdir -m 755 -p /dev/input
 busybox mkdir -m 555 -p /proc
 busybox mkdir -m 755 -p /sys
 busybox mkdir -m 755 -p /system
+busybox mkdir -m 755 -p /data
 
 # create device nodes
 busybox mknod -m 600 /dev/block/mmcblk0 b 179 0
-busybox mknod -m 600 /dev/block/mmcblk10 b 179 10
+busybox mknod -m 600 /dev/block/mmcblk0p10 b 179 10
+busybox mknod -m 600 /dev/block/mmcblk0p15 b 179 15
 busybox mknod -m 600 ${BOOTREC_CACHE_NODE}
 busybox mknod -m 600 ${BOOTREC_EVENT_NODE}
 busybox mknod -m 666 /dev/null c 1 3
@@ -30,7 +32,8 @@ busybox mknod -m 666 /dev/null c 1 3
 busybox mount -t proc proc /proc
 busybox mount -t sysfs sysfs /sys
 busybox mount -t ext4 ${BOOTREC_CACHE} /cache
-busybox mount -t ext4 /dev/block/mmcblk10 /system
+busybox mount -t ext4 /dev/block/mmcblk0p10 /system
+busybox mount -t ext4 /dev/block/mmcblk0p15 /data
 
 # trigger ON amber LED
 busybox echo ${BOOTREC_RED_LED_ON} > ${BOOTREC_CONTROL_LED}
@@ -77,10 +80,13 @@ busybox pkill -f "busybox cat ${BOOTREC_EVENT}"
 busybox cpio -i < ${load_image}
 
 #busybox umount /cache
-busybox umount /proc
-busybox umount /sys
-
+#busybox umount /proc
+#busybox umount /sys
 #busybox rm -fr /dev/*
+
+busybox echo ${BOOTREC_CACHE_NODE} >>boot.txt
+busybox echo ${BOOTREC_EVENT_NODE} >>boot.txt
+
 busybox ls -l -R / >>boot.txt
 busybox date >>boot.txt
 export PATH="${_PATH}"
