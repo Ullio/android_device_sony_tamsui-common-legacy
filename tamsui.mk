@@ -106,10 +106,9 @@ PRODUCT_COPY_FILES += \
     device/sony/tamsui-common-legacy/config/init.sony.rc:root/init.sony.rc \
     device/sony/tamsui-common-legacy/config/ueventd.sony.rc:root/ueventd.sony.rc
 
-# Missing modelid_cfg and add temporarily debug keys to have a chance to use adb at all
+# Missing modelid_cfg (used for what?)
 PRODUCT_COPY_FILES += \
-    device/sony/tamsui-common-legacy/prebuilt/modelid_cfg.sh:system/bin/modelid_cfg.sh \
-    device/sony/tamsui-common-legacy/security/adbkey.pub:root/data/misc/adb/adb_keys
+    device/sony/tamsui-common-legacy/prebuilt/modelid_cfg.sh:system/bin/modelid_cfg.sh
 
 # Temporarily copy busybox to ramdisk as nothing is there
 PRODUCT_COPY_FILES += \
