@@ -191,6 +191,10 @@ PRODUCT_PROPERTY_OVERRIDES += \
     ro.debuggable=1 \
     ro.kernel.android.checkjni=1
 
+# Low RAM settings (though applicable form 4.4 onwards)
+PRODUCT_PROPERTY_OVERRIDES += \
+    ro.config.low_ram=true
+
 
 $(call inherit-product, vendor/sony/qcom-common/common-vendor.mk)
 
