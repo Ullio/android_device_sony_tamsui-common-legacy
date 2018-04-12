@@ -24,6 +24,14 @@
     <string name="android_rom_name_text">CyanogenMod 10 Modified</string>
 
     <string name="android_rom_version_title">Android ROM Version</string>
-    <string name="android_rom_version_text">Jelly Bean 4.1.2 with:\n&#8226; Bluetooth fixes (hopefully for Blueborne)</string>
-  
+    <string name="android_rom_version_text">Jelly Bean 4.1.2 with:\n
+	    &#8226; Bluetooth fixes (hopefully for Blueborne)\n
+            &#8226; Apollo 1.1 from CyanogenMod 10.1\n</string>
+    <!--
+    <string-array name="android_rom_version_text">
+	<item>Jelly Bean 4.1.2 with:</item>
+        <item>&#8226; Bluetooth fixes (hopefully for Blueborne)</item>
+	<item>Apollo 1.1 from CM-10.1</item>
+    </string-array>
+    -->
 </resources>
