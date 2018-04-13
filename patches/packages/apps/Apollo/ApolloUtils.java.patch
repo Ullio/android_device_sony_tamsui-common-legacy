@@ -1,0 +1,14 @@
+diff --git a/src/com/andrew/apollo/utils/ApolloUtils.java b/src/com/andrew/apollo/utils/ApolloUtils.java
+index 5e60dca..1e26751 100644
+--- a/src/com/andrew/apollo/utils/ApolloUtils.java
++++ b/src/com/andrew/apollo/utils/ApolloUtils.java
+@@ -78,7 +78,8 @@ public final class ApolloUtils {
+      *         false otherwise
+      */
+     public static final boolean hasJellyBeanMR2() {
+-        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2;
++	return false;
++        // API 16: return Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2;
+     }
+ 
+     /**
