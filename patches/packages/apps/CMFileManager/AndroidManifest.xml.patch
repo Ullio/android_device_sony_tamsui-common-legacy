@@ -1,0 +1,13 @@
+diff --git a/AndroidManifest.xml b/AndroidManifest.xml
+index 21ae47e..49a7800 100644
+--- a/AndroidManifest.xml
++++ b/AndroidManifest.xml
+@@ -21,7 +21,7 @@
+ 
+   <original-package android:name="com.cyanogenmod.filemanager" />
+ 
+-  <uses-sdk android:minSdkVersion="17" android:targetSdkVersion="17" />
++  <uses-sdk android:minSdkVersion="16" android:targetSdkVersion="17" />
+ 
+   <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+   <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
