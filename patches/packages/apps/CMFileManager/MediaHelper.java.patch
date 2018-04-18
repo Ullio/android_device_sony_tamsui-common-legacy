@@ -1,0 +1,21 @@
+diff --git a/src/com/cyanogenmod/filemanager/util/MediaHelper.java b/src/com/cyanogenmod/filemanager/util/MediaHelper.java
+index bb6a9c6..9907253 100644
+--- a/src/com/cyanogenmod/filemanager/util/MediaHelper.java
++++ b/src/com/cyanogenmod/filemanager/util/MediaHelper.java
+@@ -19,7 +19,6 @@ package com.cyanogenmod.filemanager.util;
+ import android.content.ContentResolver;
+ import android.database.Cursor;
+ import android.net.Uri;
+-import android.os.UserHandle;
+ import android.provider.BaseColumns;
+ import android.provider.MediaStore;
+ import android.provider.MediaStore.MediaColumns;
+@@ -238,7 +237,7 @@ public final class MediaHelper {
+         }
+         // We need to convert EXTERNAL_STORAGE -> EMULATED_STORAGE_TARGET / userId
+         if (path.startsWith(EXTERNAL_STORAGE)) {
+-            final String userId = String.valueOf(UserHandle.myUserId());
++            final String userId = String.valueOf(android.os.Process.myUid());
+             final String target = new File(EMULATED_STORAGE_TARGET, userId).getAbsolutePath();
+             path = path.replace(EXTERNAL_STORAGE, target);
+         }
