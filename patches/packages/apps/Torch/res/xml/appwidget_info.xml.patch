@@ -1,0 +1,12 @@
+diff --git a/res/xml/appwidget_info.xml b/res/xml/appwidget_info.xml
+index de2d5c4..75cc58d 100644
+--- a/res/xml/appwidget_info.xml
++++ b/res/xml/appwidget_info.xml
+@@ -21,6 +21,5 @@
+     android:minHeight="40.0dip"
+     android:updatePeriodMillis="3600000"
+     android:configure="net.cactii.flash2.WidgetOptionsActivity"
+-    android:initialLayout="@layout/widget"
+-    android:widgetCategory="home_screen|keyguard" >
++    android:initialLayout="@layout/widget" >
+ </appwidget-provider>

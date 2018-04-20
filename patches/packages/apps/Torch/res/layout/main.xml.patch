@@ -1,0 +1,32 @@
+diff --git a/res/layout/main.xml b/res/layout/main.xml
+index a14b3d4..2801e1b 100644
+--- a/res/layout/main.xml
++++ b/res/layout/main.xml
+@@ -46,8 +46,7 @@
+         android:checked="false"
+         android:textSize="18sp"
+         android:textStyle="bold"
+-        android:paddingStart="16dp"
+-        android:paddingEnd="16dp" />
++        android:padding="16dp" />
+ 
+     <View
+         android:id="@+id/ruler2"
+@@ -63,15 +62,13 @@
+         android:checked="false"
+         android:textSize="18sp"
+         android:textStyle="bold"
+-        android:paddingStart="16dp"
+-        android:paddingEnd="16dp" />
++        android:padding="16dp" />
+ 
+     <LinearLayout
+         android:id="@+id/strobeRow"
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+-        android:layout_marginEnd="16dp"
+-        android:layout_marginStart="16dp"
++        android:layout_margin="16dp"
+         android:orientation="vertical" >
+ 
+         <TextView
