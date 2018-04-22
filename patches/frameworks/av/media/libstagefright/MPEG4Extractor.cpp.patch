@@ -1,0 +1,51 @@
+diff --git a/media/libstagefright/MPEG4Extractor.cpp b/media/libstagefright/MPEG4Extractor.cpp
+index 7ea2902d2..c569d4145 100644
+--- a/media/libstagefright/MPEG4Extractor.cpp
++++ b/media/libstagefright/MPEG4Extractor.cpp
+@@ -1560,7 +1560,14 @@ status_t MPEG4Extractor::parseChunk(off64_t *offset, int depth) {
+                 size = 0;
+             }
+ 
++            if (SIZE_MAX - chunk_size <= size) {
++                return ERROR_MALFORMED;
++            }
++
+             uint8_t *buffer = new uint8_t[size + chunk_size];
++            if (buffer = NULL) {
++                return ERROR_MALFORMED;
++            }
+ 
+             if (size > 0) {
+                 memcpy(buffer, data, size);
+@@ -1571,6 +1578,8 @@ status_t MPEG4Extractor::parseChunk(off64_t *offset, int depth) {
+                 delete[] buffer;
+                 buffer = NULL;
+ 
++                // advance read pointer so we don't end up reading this again
++                *offset += chunk_size;
+                 return ERROR_IO;
+             }
+ 
+@@ -1588,6 +1597,11 @@ status_t MPEG4Extractor::parseChunk(off64_t *offset, int depth) {
+             if (mFileMetaData != NULL) {
+                 ALOGV("chunk_data_size = %lld and data_offset = %lld",
+                         chunk_data_size, data_offset);
++
++                if (chunk_data_size >= SIZE_MAX - 1) {
++                    return ERROR_MALFORMED;
++                }
++
+                 uint8_t *buffer = new uint8_t[chunk_data_size + 1];
+                 if (mDataSource->readAt(
+                     data_offset, buffer, chunk_data_size) != (ssize_t)chunk_data_size) {
+@@ -1597,6 +1611,10 @@ status_t MPEG4Extractor::parseChunk(off64_t *offset, int depth) {
+                     return ERROR_IO;
+                 }
+                 const int kSkipBytesOfDataBox = 16;
++                if (chunk_data_size <= kSkipBytesOfDataBox) {
++                    return ERROR_MALFORMED;
++                }
++
+                 mFileMetaData->setData(
+                     kKeyAlbumArt, MetaData::TYPE_NONE,
+                     buffer + kSkipBytesOfDataBox, chunk_data_size - kSkipBytesOfDataBox);
