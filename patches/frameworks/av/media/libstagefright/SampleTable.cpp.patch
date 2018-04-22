@@ -1,0 +1,14 @@
+diff --git a/media/libstagefright/SampleTable.cpp b/media/libstagefright/SampleTable.cpp
+index e49a6d897..4b63e62ed 100644
+--- a/media/libstagefright/SampleTable.cpp
++++ b/media/libstagefright/SampleTable.cpp
+@@ -231,6 +231,9 @@ status_t SampleTable::setSampleToChunkParams(
+         return ERROR_MALFORMED;
+     }
+ 
++    if (SIZE_MAX / sizeof(SampleToChunkEntry) <= mNumSampleToChunkOffsets)
++        return ERROR_OUT_OF_RANGE;
++
+     mSampleToChunkEntries =
+         new SampleToChunkEntry[mNumSampleToChunkOffsets];
+ 
