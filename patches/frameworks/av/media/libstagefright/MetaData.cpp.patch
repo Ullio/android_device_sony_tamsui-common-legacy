@@ -1,0 +1,18 @@
+diff --git a/media/libstagefright/MetaData.cpp b/media/libstagefright/MetaData.cpp
+index 755594a76..0c7129d5e 100644
+--- a/media/libstagefright/MetaData.cpp
++++ b/media/libstagefright/MetaData.cpp
+@@ -256,7 +256,12 @@ void MetaData::typed_data::setData(
+ 
+     mType = type;
+     allocateStorage(size);
+-    memcpy(storage(), data, size);
++    void *dst = storage();
++    if (!dst) {
++        ALOGE("Couldn't allocate %zu bytes for item", size);
++        return;
++    }
++    memcpy(dst, data, size);
+ }
+ 
+ void MetaData::typed_data::getData(

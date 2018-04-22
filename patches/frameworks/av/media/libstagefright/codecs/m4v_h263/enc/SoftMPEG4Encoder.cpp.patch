@@ -1,0 +1,26 @@
+diff --git a/media/libstagefright/codecs/m4v_h263/enc/SoftMPEG4Encoder.cpp b/media/libstagefright/codecs/m4v_h263/enc/SoftMPEG4Encoder.cpp
+index a5a23322e..4eff85033 100644
+--- a/media/libstagefright/codecs/m4v_h263/enc/SoftMPEG4Encoder.cpp
++++ b/media/libstagefright/codecs/m4v_h263/enc/SoftMPEG4Encoder.cpp
+@@ -29,6 +29,10 @@
+ 
+ #include "SoftMPEG4Encoder.h"
+ 
++#ifndef INT32_MAX
++#define INT32_MAX   2147483647
++#endif
++
+ namespace android {
+ 
+ template<class T>
+@@ -145,6 +149,10 @@ OMX_ERRORTYPE SoftMPEG4Encoder::initEncParams() {
+     if (mVideoColorFormat == OMX_COLOR_FormatYUV420SemiPlanar) {
+         // Color conversion is needed.
+         CHECK(mInputFrameData == NULL);
++        if (((uint64_t)mVideoWidth * mVideoHeight) > ((uint64_t)INT32_MAX / 3)) {
++            ALOGE("b/25812794, Buffer size is too big.");
++            return OMX_ErrorBadParameter;
++        }
+         mInputFrameData =
+             (uint8_t *) malloc((mVideoWidth * mVideoHeight * 3 ) >> 1);
+         CHECK(mInputFrameData != NULL);
