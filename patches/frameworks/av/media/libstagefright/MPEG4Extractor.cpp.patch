@@ -1,5 +1,5 @@
 diff --git a/media/libstagefright/MPEG4Extractor.cpp b/media/libstagefright/MPEG4Extractor.cpp
-index 7ea2902d2..a6c565300 100644
+index 7ea2902d2..53f5c050a 100644
 --- a/media/libstagefright/MPEG4Extractor.cpp
 +++ b/media/libstagefright/MPEG4Extractor.cpp
 @@ -1560,7 +1560,14 @@ status_t MPEG4Extractor::parseChunk(off64_t *offset, int depth) {
@@ -49,3 +49,20 @@ index 7ea2902d2..a6c565300 100644
                  mFileMetaData->setData(
                      kKeyAlbumArt, MetaData::TYPE_NONE,
                      buffer + kSkipBytesOfDataBox, chunk_data_size - kSkipBytesOfDataBox);
+@@ -2461,7 +2479,15 @@ status_t MPEG4Source::read(
+                     continue;
+                 }
+ 
+-                CHECK(dstOffset + 4 <= mBuffer->size());
++                if (dstOffset > SIZE_MAX - 4 ||
++                        dstOffset + 4 > SIZE_MAX - nalLength ||
++                        dstOffset + 4 + nalLength > mBuffer->size()) {
++                    ALOGE("b/26365349 : %zu %zu", dstOffset, mBuffer->size());
++                    android_errorWriteLog(0x534e4554, "26365349");
++                    mBuffer->release();
++                    mBuffer = NULL;
++                    return ERROR_MALFORMED;
++                }
+ 
+                 dstData[dstOffset++] = 0;
+                 dstData[dstOffset++] = 0;
