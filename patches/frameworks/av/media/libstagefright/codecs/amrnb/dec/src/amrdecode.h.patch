@@ -1,0 +1,12 @@
+diff --git a/media/libstagefright/codecs/amrnb/dec/src/amrdecode.h b/media/libstagefright/codecs/amrnb/dec/src/amrdecode.h
+index db951b939..6009152dd 100644
+--- a/media/libstagefright/codecs/amrnb/dec/src/amrdecode.h
++++ b/media/libstagefright/codecs/amrnb/dec/src/amrdecode.h
+@@ -104,7 +104,6 @@ terms listed above has been obtained from the copyright holder.
+ ; INCLUDES
+ ----------------------------------------------------------------------------*/
+ #include    "typedef.h"
+-#include    "mode.h"
+ #include    "frame_type_3gpp.h"
+ #include    "pvamrnbdecoder_api.h"
+ 
