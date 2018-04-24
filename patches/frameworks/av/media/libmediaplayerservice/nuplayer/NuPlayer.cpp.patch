@@ -1,0 +1,13 @@
+diff --git a/media/libmediaplayerservice/nuplayer/NuPlayer.cpp b/media/libmediaplayerservice/nuplayer/NuPlayer.cpp
+index 389891a1c..e3d2000b6 100644
+--- a/media/libmediaplayerservice/nuplayer/NuPlayer.cpp
++++ b/media/libmediaplayerservice/nuplayer/NuPlayer.cpp
+@@ -1234,7 +1234,7 @@ status_t NuPlayer::setParameter(int key, const Parcel &request)
+             return NO_MEMORY;
+         }
+ 
+-        utf16_to_utf8(str, len, (char*) data);
++        utf16_to_utf8(str, len, (char*) data, len + 1);
+         err = mSource->setParameter(key, data, len);
+         free(data);
+     }
