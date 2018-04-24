@@ -1,0 +1,13 @@
+diff --git a/android/PhoneticStringUtils.cpp b/android/PhoneticStringUtils.cpp
+index 0b971d2..ea834fa 100644
+--- a/android/PhoneticStringUtils.cpp
++++ b/android/PhoneticStringUtils.cpp
+@@ -267,7 +267,7 @@ static bool GetExpectedString(
+         return false;
+     }
+ 
+-    utf32_to_utf8(codepoints, length, *dst);
++    utf32_to_utf8(codepoints, length, *dst, new_len + 1);
+ 
+     *dst_len = new_len;
+     return true;
