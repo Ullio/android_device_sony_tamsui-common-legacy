@@ -26,6 +26,7 @@
     <string name="android_rom_version_title">Android ROM Version</string>
     <string name="android_rom_version_text">Jelly Bean 4.1.2 with:\n
       &#8226; Bluetooth fixes (hopefully for Blueborne)\n
+      &#8226; Fixes for StageFright and LibUtils\n
       &#8226; Apollo 1.1 from CyanogenMod 10.2\n
       &#8226; FileManager from CyanogenMod 10.2\n</string>
 
