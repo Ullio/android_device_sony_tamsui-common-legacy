@@ -1,0 +1,13 @@
+diff --git a/src/com/android/settings/cmstats/AnonymousStats.java b/src/com/android/settings/cmstats/AnonymousStats.java
+index 97353b8ae..b5aa49822 100644
+--- a/src/com/android/settings/cmstats/AnonymousStats.java
++++ b/src/com/android/settings/cmstats/AnonymousStats.java
+@@ -91,7 +91,7 @@ public class AnonymousStats extends SettingsPreferenceFragment
+             }
+         } else if (preference == mViewStats) {
+             // Display the stats page
+-            Uri uri = Uri.parse("http://stats.cyanogenmod.org");
++            Uri uri = Uri.parse("http://stats.lineageos.org");
+             startActivity(new Intent(Intent.ACTION_VIEW, uri));
+         } else {
+             // If we didn't handle it, let preferences handle it.

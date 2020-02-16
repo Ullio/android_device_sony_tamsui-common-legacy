@@ -1,0 +1,13 @@
+diff --git a/src/com/android/settings/cmstats/ReportingService.java b/src/com/android/settings/cmstats/ReportingService.java
+index b8b54d2d8..3a8744255 100644
+--- a/src/com/android/settings/cmstats/ReportingService.java
++++ b/src/com/android/settings/cmstats/ReportingService.java
+@@ -101,7 +101,7 @@ public class ReportingService extends Service {
+ 
+         // report to the cmstats service
+         HttpClient httpclient = new DefaultHttpClient();
+-        HttpPost httppost = new HttpPost("http://stats.cyanogenmod.org/submit");
++        HttpPost httppost = new HttpPost("http://stats.lineageos.org/submit");
+         try {
+             List<NameValuePair> kv = new ArrayList<NameValuePair>(5);
+             kv.add(new BasicNameValuePair("device_hash", deviceId));
