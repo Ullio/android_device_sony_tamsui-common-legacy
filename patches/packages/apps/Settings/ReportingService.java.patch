@@ -1,8 +1,17 @@
 diff --git a/src/com/android/settings/cmstats/ReportingService.java b/src/com/android/settings/cmstats/ReportingService.java
-index b8b54d2d8..3a8744255 100644
+index b8b54d2d8..b2b55a79a 100644
 --- a/src/com/android/settings/cmstats/ReportingService.java
 +++ b/src/com/android/settings/cmstats/ReportingService.java
-@@ -101,7 +101,7 @@ public class ReportingService extends Service {
+@@ -95,13 +95,15 @@ public class ReportingService extends Service {
+         else if (parts.length == 4) {
+             deviceVersionNoDevice = parts[0] + "-" + parts[2];
+         }
+-        if (deviceVersionNoDevice != null)
++        if (deviceVersionNoDevice != null) {
+             tracker.sendEvent("checkin", deviceName, deviceVersionNoDevice, null);
++            Log.d(TAG, "Google Analytics fed with " + deviceName + " and " + deviceVersionNoDevice);
++        }
+         tracker.close();
  
          // report to the cmstats service
          HttpClient httpclient = new DefaultHttpClient();
@@ -11,3 +20,11 @@ index b8b54d2d8..3a8744255 100644
          try {
              List<NameValuePair> kv = new ArrayList<NameValuePair>(5);
              kv.add(new BasicNameValuePair("device_hash", deviceId));
+@@ -114,6 +116,7 @@ public class ReportingService extends Service {
+             httpclient.execute(httppost);
+             getSharedPreferences("CMStats", 0).edit().putLong(AnonymousStats.ANONYMOUS_LAST_CHECKED,
+                     System.currentTimeMillis()).apply();
++            Log.d(TAG, "LineageOS stats updated at " + new UrlEncodedFormEntity(kv).toString());
+         } catch (Exception e) {
+             Log.e(TAG, "Got Exception", e);
+         }
