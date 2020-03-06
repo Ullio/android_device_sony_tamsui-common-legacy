@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (C) 2006 The Android Open Source Project
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+
+          http://www.apache.org/licenses/LICENSE-2.0
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+-->
+
+<!-- Formatting note: terminate all comments with a period, to avoid breaking
+     the documentation output. To suppress comment lines from the documentation
+     output, insert an eat-comment element after the comment lines.
+-->
+
+<resources>
+    <!-- These are the standard attributes that make up a complete theme. -->
+    <declare-styleable name="Theme">
+
+        <!-- =========== -->
+        <!-- List styles -->
+        <!-- =========== -->
+        <eat-comment />
+
+
+        <!-- =================== -->
+        <!-- Other widget styles -->
+        <!-- =================== -->
+        <eat-comment />
+
+        <!-- Default CheckedTextView style. -->
+        <attr name="checkedTextViewStyle" format="reference" />
+
+        <!-- ============================ -->
+        <!-- Text selection handle styles -->
+        <!-- ============================ -->
+        <eat-comment />
+
+        <!-- Theme to use for presentations spawned from this theme. -->
+        <attr name="presentationTheme" format="reference" />
+
+    </declare-styleable>
+
+    <!-- =============================== -->
+    <!-- Widget package class attributes -->
+    <!-- =============================== -->
+    <eat-comment />
+
+    <declare-styleable name="TextClock">
+        <!-- Specifies the formatting pattern used to show the time and/or date
+             in 12-hour mode. Please refer to {@link android.text.format.DateFormat}
+             for a complete description of accepted formatting patterns.
+             The default pattern is "h:mm aa". -->
+        <attr name="format12Hour" format="string"/>
+        <!-- Specifies the formatting pattern used to show the time and/or date
+             in 24-hour mode. Please refer to {@link android.text.format.DateFormat}
+             for a complete description of accepted formatting patterns.
+             The default pattern is "k:mm". -->
+        <attr name="format24Hour" format="string"/>
+        <!-- Specifies the time zone to use. When this attribute is specified, the
+             TextClock will ignore the time zone of the system. To use the user's
+             time zone, do not specify this attribute. The default value is the
+             user's time zone. Please refer to {@link java.util.TimeZone} for more
+             information about time zone ids. -->
+        <attr name="timeZone" format="string"/>
+    </declare-styleable>
+    
+
+
+    <!-- ======================================= -->
+    <!-- Widget package parent layout attributes -->
+    <!-- ======================================= -->
+    <eat-comment />
+
+    <declare-styleable name="RelativeLayout_Layout">
+        <attr name="layout_toStartOf" format="reference" />
+        <!-- Positions the start edge of this view to the end of the given anchor view ID.
+             Accommodates start margin of this view and end margin of anchor view. -->
+        <attr name="layout_toEndOf" format="reference" />
+        <!-- Makes the start edge of this view match the start edge of the given anchor view ID.
+            Accommodates start margin. -->
+        <attr name="layout_alignStart" format="reference" />
+        <!-- Makes the end edge of this view match the end edge of the given anchor view ID.
+            Accommodates end margin. -->
+        <attr name="layout_alignEnd" format="reference" />
+        <!-- If true, makes the start edge of this view match the start edge of the parent.
+            Accommodates start margin. -->
+        <attr name="layout_alignParentStart" format="boolean" />
+        <!-- If true, makes the end edge of this view match the end edge of the parent.
+            Accommodates end margin. -->
+        <attr name="layout_alignParentEnd" format="boolean" />
+    </declare-styleable>
+
+
+    <!-- =============================== -->
+    <!-- AppWidget package class attributes -->
+    <!-- =============================== -->
+    <eat-comment />
+
+    <!-- Use <code>appwidget-provider</code> as the root tag of the XML resource that
+         describes an AppWidget provider.  See {@link android.appwidget android.appwidget}
+         package for more info.
+     -->
+    <declare-styleable name="AppWidgetProviderInfo">
+        <!-- Minimum width of the AppWidget. -->
+        <attr name="minWidth"/>
+        <!-- Minimum height of the AppWidget. -->
+        <attr name="minHeight"/>
+        <!-- A resource id of a layout. -->
+        <attr name="initialKeyguardLayout" format="reference" />
+        <!-- Optional parameter which indicates where this widget can be shown,
+             ie. home screen, keyguard or both.
+             resized. Supports combined values using | operator. -->
+        <attr name="widgetCategory" format="integer">
+            <flag name="home_screen" value="0x1" />
+            <flag name="keyguard" value="0x2" />
+        </attr>
+    </declare-styleable>
+
+</resources>
