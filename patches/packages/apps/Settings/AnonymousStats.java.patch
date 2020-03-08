@@ -1,5 +1,5 @@
 diff --git a/src/com/android/settings/cmstats/AnonymousStats.java b/src/com/android/settings/cmstats/AnonymousStats.java
-index 97353b8ae..b5aa49822 100644
+index 97353b8ae..7c51b4ed0 100644
 --- a/src/com/android/settings/cmstats/AnonymousStats.java
 +++ b/src/com/android/settings/cmstats/AnonymousStats.java
 @@ -91,7 +91,7 @@ public class AnonymousStats extends SettingsPreferenceFragment
@@ -11,3 +11,19 @@ index 97353b8ae..b5aa49822 100644
              startActivity(new Intent(Intent.ACTION_VIEW, uri));
          } else {
              // If we didn't handle it, let preferences handle it.
+@@ -118,10 +118,14 @@ public class AnonymousStats extends SettingsPreferenceFragment
+             mOkClicked = true;
+             mPrefs.edit().putBoolean(ANONYMOUS_OPT_IN, true).apply();
+             ReportingServiceManager.launchService(getActivity());
++            // Testing purpose only
++            Intent launch = new Intent (getActivity(), ReportingService.class);
++            launch.setAction (Intent.ACTION_RUN);
++	    getActivity().startService (launch);
+         } else if (which == DialogInterface.BUTTON_NEGATIVE){
+             mEnableReporting.setChecked(false);
+         } else {
+-            Uri uri = Uri.parse("http://www.cyanogenmod.org/blog/cmstats-what-it-is-and-why-you-should-opt-in");
++            Uri uri = Uri.parse("https://lineageos.org/legal");
+             startActivity(new Intent(Intent.ACTION_VIEW, uri));
+         }
+     }

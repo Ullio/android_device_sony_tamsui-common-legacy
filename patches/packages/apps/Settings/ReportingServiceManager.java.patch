@@ -1,0 +1,84 @@
+diff --git a/src/com/android/settings/cmstats/ReportingServiceManager.java b/src/com/android/settings/cmstats/ReportingServiceManager.java
+index 3a065ff4e..768966aef 100644
+--- a/src/com/android/settings/cmstats/ReportingServiceManager.java
++++ b/src/com/android/settings/cmstats/ReportingServiceManager.java
+@@ -27,10 +27,16 @@ import android.net.ConnectivityManager;
+ import android.net.NetworkInfo;
+ import android.util.Log;
+ 
++import java.text.SimpleDateFormat;
++import java.util.Date;
++
++
++
+ public class ReportingServiceManager extends BroadcastReceiver {
+ 
+-    public static final long dMill = 24L * 60L * 60L * 1000L;
+-    public static final long tFrame = 1L * dMill;
++    public static final long dMill  = 24L * 60L * 60L * 1000L;
++    public static final long tFrame =  1L * 15L * 60L * 1000L;
++    //public static final long tFrame = 1L * dMill;
+ 
+     @Override
+     public void onReceive(Context ctx, Intent intent) {
+@@ -46,6 +52,7 @@ public class ReportingServiceManager extends BroadcastReceiver {
+         prefs.edit().putBoolean(AnonymousStats.ANONYMOUS_ALARM_SET, false).apply();
+         boolean optedIn = prefs.getBoolean(AnonymousStats.ANONYMOUS_OPT_IN, true);
+         if (!optedIn) {
++            Log.d(ReportingService.TAG, "User did not opt in when setting alarm.");
+             return;
+         }
+         long lastSynced = prefs.getLong(AnonymousStats.ANONYMOUS_LAST_CHECKED, 0);
+@@ -55,12 +62,21 @@ public class ReportingServiceManager extends BroadcastReceiver {
+             // sending up anonymous stats.
+             lastSynced = System.currentTimeMillis();
+         }
++
++        SimpleDateFormat f = new SimpleDateFormat("hh:mm:ss");
+         long timeLeft = (lastSynced + tFrame) - System.currentTimeMillis();
+-        Intent sIntent = new Intent(ConnectivityManager.CONNECTIVITY_ACTION);
+-        sIntent.setComponent(new ComponentName(ctx.getPackageName(), ReportingServiceManager.class.getName()));
++        if (timeLeft < 0)
++             timeLeft = 0;
++        Log.d(ReportingService.TAG, "Last synced at " + f.format(new Date (lastSynced)));
++        Log.d(ReportingService.TAG, "Time left " + f.format(new Date (timeLeft)));
++	
++        Intent sIntent = new Intent (ctx, ReportingServiceManager.class);
++        sIntent.setAction(Intent.ACTION_RUN);
+         AlarmManager alarmManager = (AlarmManager) ctx.getSystemService(Context.ALARM_SERVICE);
+         alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + timeLeft, PendingIntent.getBroadcast(ctx, 0, sIntent, 0));
+-        Log.d(ReportingService.TAG, "Next sync attempt in : " + timeLeft / dMill + " days");
++
++        //Log.d(ReportingService.TAG, "Next sync attempt in : " + timeLeft / dMill + " days");
++        Log.d(ReportingService.TAG, "Next sync attempt in " + f.format (new Date (timeLeft)) + ", i.e. at " + f.format (new Date (System.currentTimeMillis() + timeLeft)));
+         prefs.edit().putBoolean(AnonymousStats.ANONYMOUS_ALARM_SET, true).apply();
+     }
+ 
+@@ -72,7 +88,9 @@ public class ReportingServiceManager extends BroadcastReceiver {
+             long lastSynced = prefs.getLong(AnonymousStats.ANONYMOUS_LAST_CHECKED, 0);
+             boolean optedIn = prefs.getBoolean(AnonymousStats.ANONYMOUS_OPT_IN, true);
+             boolean alarmSet = prefs.getBoolean(AnonymousStats.ANONYMOUS_ALARM_SET, false);
++            Log.d(ReportingService.TAG, "Launching service entered.");
+             if (alarmSet) {
++                Log.d(ReportingService.TAG, "Alarm already set. Bailing out.");
+                 return;
+             }
+             boolean shouldSync = false;
+@@ -82,11 +100,15 @@ public class ReportingServiceManager extends BroadcastReceiver {
+                 shouldSync = true;
+             }
+             if (shouldSync && optedIn) {
+-                Intent sIntent = new Intent();
+-                sIntent.setComponent(new ComponentName(ctx.getPackageName(), ReportingService.class.getName()));
++                Intent sIntent = new Intent (ctx, ReportingService.class);
++		sIntent.setAction(Intent.ACTION_RUN);
+                 ctx.startService(sIntent);
++                Log.d(ReportingService.TAG, "ReportingService started.");
+             } else if (optedIn) {
++                Log.d(ReportingService.TAG, "New alarm set.");
+                 setAlarm(ctx);
++            } else {
++                Log.d(ReportingService.TAG, "User did not opt in.");
+             }
+         }
+     }

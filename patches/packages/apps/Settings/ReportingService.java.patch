@@ -1,30 +1,143 @@
 diff --git a/src/com/android/settings/cmstats/ReportingService.java b/src/com/android/settings/cmstats/ReportingService.java
-index b8b54d2d8..b2b55a79a 100644
+index b8b54d2d8..5de2724a3 100644
 --- a/src/com/android/settings/cmstats/ReportingService.java
 +++ b/src/com/android/settings/cmstats/ReportingService.java
-@@ -95,13 +95,15 @@ public class ReportingService extends Service {
-         else if (parts.length == 4) {
-             deviceVersionNoDevice = parts[0] + "-" + parts[2];
+@@ -16,16 +16,30 @@
+ 
+ package com.android.settings.cmstats;
+ 
++import java.io.BufferedInputStream;
++import java.io.BufferedReader;
++import java.io.IOException;
++import java.io.InputStream;
++import java.io.InputStreamReader;
++import java.io.OutputStream;
++import java.net.HttpURLConnection;
++import java.net.URL;
+ import java.util.ArrayList;
++import java.util.Collections;
+ import java.util.List;
++import java.util.Map;
+ 
+ import org.apache.http.NameValuePair;
+ import org.apache.http.client.HttpClient;
+ import org.apache.http.client.entity.UrlEncodedFormEntity;
+ import org.apache.http.client.methods.HttpPost;
++import org.apache.http.entity.StringEntity;
+ import org.apache.http.impl.client.DefaultHttpClient;
+ import org.apache.http.message.BasicNameValuePair;
+ 
++import org.json.JSONException;
++import org.json.JSONObject;
++
+ import android.app.Notification;
+ import android.app.NotificationManager;
+ import android.app.PendingIntent;
+@@ -39,10 +53,6 @@ import android.util.Log;
+ import com.android.settings.R;
+ import com.android.settings.Settings;
+ 
+-import com.google.analytics.tracking.android.GoogleAnalytics;
+-import com.google.analytics.tracking.android.Tracker;
+-
+-import com.android.settings.R;
+ 
+ public class ReportingService extends Service {
+     protected static final String TAG = "CMStats";
+@@ -80,44 +90,64 @@ public class ReportingService extends Service {
+         Log.d(TAG, "SERVICE: Carrier=" + deviceCarrier);
+         Log.d(TAG, "SERVICE: Carrier ID=" + deviceCarrierId);
+ 
+-        // report to google analytics
+-        GoogleAnalytics ga = GoogleAnalytics.getInstance(this);
+-        Tracker tracker = ga.getTracker(getString(R.string.ga_trackingId));
+-        tracker.sendEvent(deviceName, deviceVersion, deviceCountry, null);
+-        // this really should be set at build time...
+-        // format of version should be:
+-        // version[-date-type]-device
+-        String[] parts = deviceVersion.split("-");
+-        String deviceVersionNoDevice = null;
+-        if (parts.length == 2) {
+-            deviceVersionNoDevice = parts[0];
+-        }
+-        else if (parts.length == 4) {
+-            deviceVersionNoDevice = parts[0] + "-" + parts[2];
++        // JSON submission as found on cm-11 branch and on LineageParts repository
++        JSONObject json = new JSONObject();
++        try {
++            json.put("device_hash", deviceId);
++            json.put("device_name", deviceName);
++            json.put("device_version", deviceVersion);
++            json.put("device_country", deviceCountry);
++            json.put("device_carrier", deviceCarrier);
++            json.put("device_carrier_id", deviceCarrierId);
++        } catch (JSONException e) {
++            Log.e(TAG, "Could not encode JSON for stats ", e);
          }
 -        if (deviceVersionNoDevice != null)
-+        if (deviceVersionNoDevice != null) {
-             tracker.sendEvent("checkin", deviceName, deviceVersionNoDevice, null);
-+            Log.d(TAG, "Google Analytics fed with " + deviceName + " and " + deviceVersionNoDevice);
-+        }
-         tracker.close();
+-            tracker.sendEvent("checkin", deviceName, deviceVersionNoDevice, null);
+-        tracker.close();
  
-         // report to the cmstats service
-         HttpClient httpclient = new DefaultHttpClient();
+-        // report to the cmstats service
+-        HttpClient httpclient = new DefaultHttpClient();
 -        HttpPost httppost = new HttpPost("http://stats.cyanogenmod.org/submit");
-+        HttpPost httppost = new HttpPost("http://stats.lineageos.org/submit");
++        // Sending JSON object to the Lineage stats server as implemented in LineageParts
          try {
-             List<NameValuePair> kv = new ArrayList<NameValuePair>(5);
-             kv.add(new BasicNameValuePair("device_hash", deviceId));
-@@ -114,6 +116,7 @@ public class ReportingService extends Service {
-             httpclient.execute(httppost);
-             getSharedPreferences("CMStats", 0).edit().putLong(AnonymousStats.ANONYMOUS_LAST_CHECKED,
-                     System.currentTimeMillis()).apply();
-+            Log.d(TAG, "LineageOS stats updated at " + new UrlEncodedFormEntity(kv).toString());
+-            List<NameValuePair> kv = new ArrayList<NameValuePair>(5);
+-            kv.add(new BasicNameValuePair("device_hash", deviceId));
+-            kv.add(new BasicNameValuePair("device_name", deviceName));
+-            kv.add(new BasicNameValuePair("device_version", deviceVersion));
+-            kv.add(new BasicNameValuePair("device_country", deviceCountry));
+-            kv.add(new BasicNameValuePair("device_carrier", deviceCarrier));
+-            kv.add(new BasicNameValuePair("device_carrier_id", deviceCarrierId));
+-            httppost.setEntity(new UrlEncodedFormEntity(kv));
+-            httpclient.execute(httppost);
+-            getSharedPreferences("CMStats", 0).edit().putLong(AnonymousStats.ANONYMOUS_LAST_CHECKED,
+-                    System.currentTimeMillis()).apply();
++            URL url = new URL("https://stats.lineageos.org/api/v1/stats");
++            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
++            try {
++                urlConnection.setInstanceFollowRedirects(true);
++                urlConnection.setDoOutput(true);
++                urlConnection.setDoInput(true);
++                urlConnection.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
++
++                OutputStream os = urlConnection.getOutputStream();
++                os.write(json.toString().getBytes("UTF-8"));
++                os.close();
++                Log.d(TAG, "LineageOS stats updated via JSON sending " + json.toString());
++            
++                int responseCode = urlConnection.getResponseCode();
++                if (responseCode != HttpURLConnection.HTTP_OK) {
++                    InputStream responseStream = new BufferedInputStream (urlConnection.getErrorStream());
++                    BufferedReader responseStreamReader = new BufferedReader (new InputStreamReader(responseStream));
++                    String line = "";
++                    StringBuilder stringBuilder = new StringBuilder();
++                    while ((line = responseStreamReader.readLine()) != null) {
++                        stringBuilder.append(line).append("\n");
++                    }
++                    responseStreamReader.close();
++                    responseStream.close();
++                    Log.w(TAG, "LineageOS server responded failure with " + stringBuilder.toString());
++                } else {
++                    Log.d(TAG, "LineageOS stats update succeeded with response code " + responseCode);
++                } 
++            
++                getSharedPreferences("CMStats", 0).edit().putLong(AnonymousStats.ANONYMOUS_LAST_CHECKED, System.currentTimeMillis()).apply();
++            } catch (Exception e) {
++                Log.w(TAG, "Error during LineageOS stats update. ", e);
++            } finally {
++                urlConnection.disconnect();
++            }
          } catch (Exception e) {
-             Log.e(TAG, "Got Exception", e);
+-            Log.e(TAG, "Got Exception", e);
++            Log.w (TAG, "Error when setting up LineageOS stats procedure. ", e);
          }
++
+         ReportingServiceManager.setAlarm(this);
++        Log.d(TAG, "LineageOS stats report ended.");
+         stopSelf();
+     }
++
+ }
++
