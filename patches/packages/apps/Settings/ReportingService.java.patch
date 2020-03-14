@@ -1,50 +1,59 @@
 diff --git a/src/com/android/settings/cmstats/ReportingService.java b/src/com/android/settings/cmstats/ReportingService.java
-index b8b54d2d8..5de2724a3 100644
+index b8b54d2d8..414c79830 100644
 --- a/src/com/android/settings/cmstats/ReportingService.java
 +++ b/src/com/android/settings/cmstats/ReportingService.java
-@@ -16,16 +16,30 @@
+@@ -1,5 +1,6 @@
+ /*
+  * Copyright (C) 2012 The CyanogenMod Project
++ * Copyright (C) 2017 The LineageOS Project
+  *
+  * Licensed under the Apache License, Version 2.0 (the "License");
+  * you may not use this file except in compliance with the License.
+@@ -16,33 +17,23 @@
  
  package com.android.settings.cmstats;
  
+-import java.util.ArrayList;
+-import java.util.List;
+-
+-import org.apache.http.NameValuePair;
+-import org.apache.http.client.HttpClient;
+-import org.apache.http.client.entity.UrlEncodedFormEntity;
+-import org.apache.http.client.methods.HttpPost;
+-import org.apache.http.impl.client.DefaultHttpClient;
+-import org.apache.http.message.BasicNameValuePair;
+-
+-import android.app.Notification;
+-import android.app.NotificationManager;
+-import android.app.PendingIntent;
+ import android.app.Service;
+-import android.content.ComponentName;
+-import android.content.Context;
+ import android.content.Intent;
+ import android.os.IBinder;
+ import android.util.Log;
+ 
+-import com.android.settings.R;
+-import com.android.settings.Settings;
 +import java.io.BufferedInputStream;
 +import java.io.BufferedReader;
-+import java.io.IOException;
 +import java.io.InputStream;
 +import java.io.InputStreamReader;
 +import java.io.OutputStream;
 +import java.net.HttpURLConnection;
 +import java.net.URL;
- import java.util.ArrayList;
-+import java.util.Collections;
- import java.util.List;
-+import java.util.Map;
- 
- import org.apache.http.NameValuePair;
- import org.apache.http.client.HttpClient;
- import org.apache.http.client.entity.UrlEncodedFormEntity;
- import org.apache.http.client.methods.HttpPost;
-+import org.apache.http.entity.StringEntity;
- import org.apache.http.impl.client.DefaultHttpClient;
- import org.apache.http.message.BasicNameValuePair;
- 
++
 +import org.json.JSONException;
 +import org.json.JSONObject;
-+
- import android.app.Notification;
- import android.app.NotificationManager;
- import android.app.PendingIntent;
-@@ -39,10 +53,6 @@ import android.util.Log;
- import com.android.settings.R;
- import com.android.settings.Settings;
  
 -import com.google.analytics.tracking.android.GoogleAnalytics;
 -import com.google.analytics.tracking.android.Tracker;
--
+ 
 -import com.android.settings.R;
  
  public class ReportingService extends Service {
      protected static final String TAG = "CMStats";
-@@ -80,44 +90,64 @@ public class ReportingService extends Service {
+@@ -80,44 +71,61 @@ public class ReportingService extends Service {
          Log.d(TAG, "SERVICE: Carrier=" + deviceCarrier);
          Log.d(TAG, "SERVICE: Carrier ID=" + deviceCarrierId);
  
@@ -72,7 +81,7 @@ index b8b54d2d8..5de2724a3 100644
 +            json.put("device_carrier", deviceCarrier);
 +            json.put("device_carrier_id", deviceCarrierId);
 +        } catch (JSONException e) {
-+            Log.e(TAG, "Could not encode JSON for stats ", e);
++            Log.e(TAG, "Could not encode statistics into JSON object. ", e);
          }
 -        if (deviceVersionNoDevice != null)
 -            tracker.sendEvent("checkin", deviceName, deviceVersionNoDevice, null);
@@ -105,8 +114,7 @@ index b8b54d2d8..5de2724a3 100644
 +                OutputStream os = urlConnection.getOutputStream();
 +                os.write(json.toString().getBytes("UTF-8"));
 +                os.close();
-+                Log.d(TAG, "LineageOS stats updated via JSON sending " + json.toString());
-+            
++
 +                int responseCode = urlConnection.getResponseCode();
 +                if (responseCode != HttpURLConnection.HTTP_OK) {
 +                    InputStream responseStream = new BufferedInputStream (urlConnection.getErrorStream());
@@ -118,26 +126,24 @@ index b8b54d2d8..5de2724a3 100644
 +                    }
 +                    responseStreamReader.close();
 +                    responseStream.close();
-+                    Log.w(TAG, "LineageOS server responded failure with " + stringBuilder.toString());
++                    Log.e(TAG, "LineageOS server responded with failure: " + stringBuilder.toString());
 +                } else {
-+                    Log.d(TAG, "LineageOS stats update succeeded with response code " + responseCode);
-+                } 
-+            
++                    Log.d(TAG, "LineageOS stats update succeeded (response code " + responseCode +")");
++                }
++
 +                getSharedPreferences("CMStats", 0).edit().putLong(AnonymousStats.ANONYMOUS_LAST_CHECKED, System.currentTimeMillis()).apply();
 +            } catch (Exception e) {
-+                Log.w(TAG, "Error during LineageOS stats update. ", e);
++                Log.e(TAG, "Error during LineageOS stats update. ", e);
 +            } finally {
 +                urlConnection.disconnect();
 +            }
          } catch (Exception e) {
 -            Log.e(TAG, "Got Exception", e);
-+            Log.w (TAG, "Error when setting up LineageOS stats procedure. ", e);
++            Log.e(TAG, "Error when setting up LineageOS stats procedure. ", e);
          }
 +
          ReportingServiceManager.setAlarm(this);
-+        Log.d(TAG, "LineageOS stats report ended.");
          stopSelf();
      }
 +
  }
-+
