@@ -1,0 +1,13 @@
+diff --git a/src/com/android/deskclock/timer/TimerReceiver.java b/src/com/android/deskclock/timer/TimerReceiver.java
+index b0c6a6dc..2e7e90ae 100644
+--- a/src/com/android/deskclock/timer/TimerReceiver.java
++++ b/src/com/android/deskclock/timer/TimerReceiver.java
+@@ -280,7 +280,7 @@ public class TimerReceiver extends BroadcastReceiver {
+         .setDeleteIntent(pendingIntent)
+         .setOngoing(true)
+         .setPriority(priority)
+-        .setShowWhen(false)
++//        .setShowWhen(false)
+         .setSmallIcon(R.drawable.stat_notify_timer);
+         if (showTicker) {
+             builder.setTicker(text);

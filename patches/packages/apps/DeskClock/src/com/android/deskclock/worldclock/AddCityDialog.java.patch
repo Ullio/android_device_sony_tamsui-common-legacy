@@ -1,0 +1,20 @@
+diff --git a/src/com/android/deskclock/worldclock/AddCityDialog.java b/src/com/android/deskclock/worldclock/AddCityDialog.java
+index c30007d2..fa940094 100644
+--- a/src/com/android/deskclock/worldclock/AddCityDialog.java
++++ b/src/com/android/deskclock/worldclock/AddCityDialog.java
+@@ -264,6 +264,7 @@ public class AddCityDialog implements OnClickListener,
+                 }
+             }
+         });
++/*
+         builder.setOnDismissListener(new OnDismissListener() {
+             @Override
+             public void onDismiss(DialogInterface dialog) {
+@@ -277,6 +278,7 @@ public class AddCityDialog implements OnClickListener,
+                 }
+             }
+         });
++*/
+         mDialog = builder.create();
+ 
+         // Register broadcast listeners
