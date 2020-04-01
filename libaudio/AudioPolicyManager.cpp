@@ -15,10 +15,10 @@
  * limitations under the License.
  */
 
-#define LOG_TAG "AudioPolicyManager7627a"
+#define LOG_TAG "AudioPolicyManager7627a Sony"
 //#define LOG_NDEBUG 0
 
-//#define VERY_VERBOSE_LOGGING
+#define VERY_VERBOSE_LOGGING
 #ifdef VERY_VERBOSE_LOGGING
 #define ALOGVV ALOGV
 #else
@@ -694,14 +694,16 @@ audio_devices_t AudioPolicyManager::getDeviceForInputSource(int inputSource)
             device = AudioSystem::DEVICE_IN_VOICE_CALL;
         }
         break;
-#ifdef QCOM_FM
+//#ifdef QCOM_FM
     case AUDIO_SOURCE_FM_RX:
         device = AudioSystem::DEVICE_IN_FM_RX;
+        ALOGI("getDeviceForInputSource() chosen AUDIO_SOURCE_FM_RX for input source %d", inputSource);
         break;
     case AUDIO_SOURCE_FM_RX_A2DP:
         device = AudioSystem::DEVICE_IN_FM_RX_A2DP;
+        ALOGI("getDeviceForInputSource() chosen AUDIO_SOURCE_FM_RX_A2DP for input source %d", inputSource);
         break;
-#endif
+//#endif
     default:
         ALOGW("getDeviceForInputSource() invalid input source %d", inputSource);
         break;

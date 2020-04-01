@@ -66,9 +66,10 @@ BOARD_HAVE_BLUETOOTH_BCM := true
 TARGET_NEEDS_BLUETOOTH_INIT_DELAY := true
 TARGET_CUSTOM_BLUEDROID := ../../../device/sony/tamsui-common-legacy/bluedroid/bluetooth.c
 
-#FM Radio
-#BOARD_USES_STE_FMRADIO := true
-#COMMON_GLOBAL_CFLAGS += -DSTE_FM
+# FM Radio
+BOARD_USES_STE_FMRADIO := true
+BOARD_HAVE_QCOM_FM := true
+COMMON_GLOBAL_CFLAGS += -DSTE_FM -DQCOM_FM_ENABLED
 
 # Webkit
 ENABLE_WEBGL := true
